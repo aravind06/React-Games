@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  background-image: url(./loginImage.jpg);
+  background-repeat: no-repeat, repeat;
+  background-size: cover; 
 }
 
 .App-logo {
@@ -14,7 +17,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  /* background-color: #282c34; */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -32,7 +35,34 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: black;
+  width: 25%;
+  align-items: center;
+  border: 2px solid white;
+  border-radius: 20px !important;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.login-elements{
+  margin: 20px !important;
+}
+
+.warningMessage {
+  color: red;
+  font-size: 15px;
+  font-weight: 400;
 }
