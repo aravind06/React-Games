@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from "axios";
-
+import { useHistory} from 'react-router-dom';
 
 function Login() {
   axios.defaults.baseURL = 'http://localhost:8081/e-shop';
@@ -17,13 +17,19 @@ function Login() {
   const [password, setPassword] = useState('');
   const [userMsg, setUserMsg] = useState('');
   const authenticate = () => {
-    axios.post("/userLogin", {
+    axios.post("/authenticate", {
       "userName": userName,
       "password": password
     }).then(resp => {
-      setUserMsg(resp.data);
-    })
+      if(resp.data.statusCode === "200") {
+      history.push('/home')
+      } else
+      setUserMsg(resp.data.statusMessage);
+    }) 
   }
+
+  const history = useHistory();
+
   return (
     <div className="App">
       <header className="App-header">
