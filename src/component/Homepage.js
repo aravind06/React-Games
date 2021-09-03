@@ -1,9 +1,12 @@
 import React from "react";
+import CategoryDisplay from "./CategoryDisplay";
+import Header from "./Header";
 
 function Home() {
     return (
         <div>
-            Home Page
+            <Header />
+            <CategoryDisplay />
         </div>
     );
 };
