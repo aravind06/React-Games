@@ -1,23 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from './component/Homepage';
-
-import Login from "./Login";
+import { BrowserRouter as Router } from 'react-router-dom';
+import { RoutePath } from './component/route';
 import './App.css';
-import CategoryItem from './component/CategoryItems';
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import rootReducer from "./reducer";
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
 const App = () => {
     return (
-        <Router>
-            <div className="App">
-                <div id="page-wrap">
-                    <Switch>
-                        <Route path="/" exact  ><Login /></Route>
-                        <Route path="/home" ><Home /></Route>
-                        <Route path="/search"><CategoryItem /></Route>
-                    </Switch>
+        <Provider store={store}>
+            <Router>
+                <div className="App">
+                    <div id="page-wrap">
+                        {RoutePath}
+                    </div>
                 </div>
-            </div>
-        </Router>
+            </Router>
+        </Provider>
     );
 };
 
