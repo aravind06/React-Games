@@ -1,20 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../App.css';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { connect, useSelector } from "react-redux";
-import {userAuthentication} from "../action";
+import { userAuthentication, setUserName, setPassword } from "../action";
 import { useHistory } from 'react-router-dom';
 
-function Login({userAuthentication}) {
+function Login(mapActiontoProps) {
 
 
-  const [userData, setUserData] = useState({
-    userName: "",
-    password: ""
-  });
-
+  const userData = useSelector(state => state.loginReducer.userData);
   const loginState = useSelector(state => state.loginReducer.loginStatus);
   const history = useHistory();
   if (loginState.statusCode === "200") {
@@ -25,14 +21,14 @@ function Login({userAuthentication}) {
       <header className="App-header">
         <Card className="login-container">
           <div className="title">Login</div>
-          
-          
-          <TextField className="login-elements" id="userName-entry" label="User Name" value={userData.userName} onChange={(e) => setUserData({...userData, userName: e.target.value})} />
 
-          <TextField className="login-elements" id="password-entry" label="Password" type="password" value={userData.password} onChange={(e) => setUserData({...userData, password: e.target.value})} />
+
+          <TextField className="login-elements" id="userName-entry" label="User Name" value={userData.userName} onChange={(e) => mapActiontoProps.setUserName(e.target.value)} />
+
+          <TextField className="login-elements" id="password-entry" label="Password" type="password" value={userData.password} onChange={(e) => mapActiontoProps.setPassword(e.target.value)} />
 
           <div className="warningMessage">{loginState.statusMessage}</div>
-          <Button className="login-elements" variant="contained" color="primary" disableElevation onClick={() => userAuthentication(userData)}>
+          <Button className="login-elements" variant="contained" color="primary" disableElevation onClick={() => mapActiontoProps.userAuthentication(userData)}>
             Login
           </Button>
         </Card>
@@ -41,5 +37,10 @@ function Login({userAuthentication}) {
   );
 }
 
+const mapActiontoProps = {
+  userAuthentication,
+  setUserName,
+  setPassword
+}
 
-export default connect(null, {userAuthentication})(Login);
+export default connect(null, mapActiontoProps)(Login);

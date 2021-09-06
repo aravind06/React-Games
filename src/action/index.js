@@ -1,3 +1,5 @@
 export {
-    userAuthentication
+    userAuthentication,
+    setUserName,
+    setPassword
 } from "./login-action"
