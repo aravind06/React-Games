@@ -8,5 +8,6 @@ export {
     GET_CART_ITEMS,
     ADD_TO_CART,
     SET_USER_NAME,
-    SET_USER_PASSWORD
+    SET_USER_PASSWORD,
+    SET_CURRENT_CAROUSEL_IMAGE
 } from "./action-constants";
