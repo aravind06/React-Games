@@ -1,66 +1,65 @@
-// src/components/Chatbot.js
 import React, { useState } from 'react';
-import { Paper, Typography, TextField, Button } from '@material-ui/core';
-import { Send } from '@material-ui/icons';
-
-const mockMessages = [
-  { id: 1, text: 'Hello, how can I help you today?', sender: 'bot' },
-  { id: 2, text: 'I can assist with Verizon services.', sender: 'bot' }
-  // Add more mock messages as needed
-];
+import { TextField, Button, Grid } from '@material-ui/core';
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState(mockMessages);
-  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState([
+    { text: "Hello, how can I help you?", type: "bot" },
+    { text: "do you have a question.", type: "bot" , summary: true}
+  ]);
 
-  const handleSendMessage = () => {
-    if (input.trim() === '') return;
-    const newMessages = [...messages, { id: messages.length + 1, text: input, sender: 'user' }];
+  const handleMessageSend = (message) => {
+    // Simulate backend call
+    let newMessages = [...messages];
+    newMessages.push({ text: message, type: "user" });
+
+    if (message.toLowerCase() === "yes" && newMessages[newMessages.length - 2].summary) {
+      // Handle yes button click
+      //newMessages.push({ text: "Yes clicked", type: "user" });
+    } else if (message.toLowerCase() === "no" && newMessages[newMessages.length - 2].summary) {
+      // Handle no button click
+      //newMessages.push({ text: "No clicked", type: "user" });
+    } else {
+      // Normal bot response
+      newMessages.push({ text: "I'm sorry, I didn't understand that.", type: "bot" });
+    }
+
     setMessages(newMessages);
-    setInput('');
-    //setMessages([...messages, { id: messages.length + 2, text: "hola", sender: 'bot' }]);
-    // Here you would send the input to your chatbot service and handle the response
-    setTimeout(() => {
-        const botResponse = { id: newMessages.length + 1, text: 'I am a bot response.', sender: 'bot' };
-        setMessages([...newMessages, botResponse]);
-      }, 500);
   };
 
   return (
     <div>
-      <Typography variant="h5">Verizon Chatbot</Typography>
-      <Paper style={{ padding: '20px', margin: '20px 0', height: '400px', overflowY: 'auto' }}>
-        {messages.map(message => (
-          <Message key={message.id} text={message.text} sender={message.sender} />
+      <div style={{ height: '400px', overflowY: 'scroll', border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
+        {messages.map((message, index) => (
+          <div key={index} style={{ marginBottom: '10px' }}>
+            {message.type === 'bot' ? (
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  {message.text}
+                </Grid>
+                {message.summary && (
+                  <Grid item xs={12}>
+                    <Button onClick={() => handleMessageSend('Yes')}>Yes</Button>
+                    <Button onClick={() => handleMessageSend('No')}>No</Button>
+                  </Grid>
+                )}
+              </Grid>
+            ) : (
+              <div style={{ textAlign: 'right' }}>{message.text}</div>
+            )}
+          </div>
         ))}
-      </Paper>
-      <div style={{ display: 'flex' }}>
-        <TextField
-          label="Type your message"
-          variant="outlined"
-          style={{ flex: 1, marginRight: '10px' }}
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              handleSendMessage();
-            }
-          }}
-        />
-        <Button variant="contained" color="primary" onClick={handleSendMessage}>
-          <Send />
-        </Button>
       </div>
-    </div>
-  );
-};
-
-const Message = ({ text, sender }) => {
-  return (
-    <div style={{ textAlign: sender === 'bot' ? 'left' : 'right', marginBottom: '10px' }}>
-      <Typography variant="body1" style={{ backgroundColor: sender === 'bot' ? '#f0f0f0' : '#d9f1ff', padding: '10px', borderRadius: '5px', display: 'inline-block' }}>
-        {text}
-      </Typography>
+      <TextField
+        label="Type your message here"
+        variant="outlined"
+        fullWidth
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            handleMessageSend(e.target.value);
+            e.target.value = '';
+          }
+        }}
+      />
     </div>
   );
 };
