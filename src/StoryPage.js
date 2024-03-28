@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useLocation} from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { Typography, TextField, List, ListItem, ListItemText, Collapse, Button, Snackbar, IconButton, TextareaAutosize } from '@material-ui/core';
 import { ExpandLess, ExpandMore, CheckCircleOutline } from '@material-ui/icons';
 
@@ -38,12 +38,12 @@ const StoryPage = () => {
   };
 
   return (
-    <div>
-      <Typography variant="h4">Jira Story Details</Typography>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+      <Typography variant="h4" style={{ textAlign: 'center' }}>Jira Story Details</Typography>
       <List>
         {Object.entries(storyFields).map(([field, value]) => (
           <ListItem key={field} button onClick={() => handleFieldClick(field)}>
-            <ListItemText primary={field} secondary={editableField === field ? <TextareaAutosize name={field} value={value} onBlur={() => setEditableField(null)} onChange={(e) => handleFieldChange(e, field)} style={{ width: '100%', minHeight: '100px' }}  /> : value} />
+            <ListItemText primary={field} secondary={editableField === field ? <TextareaAutosize name={field} value={value} onBlur={() => setEditableField(null)} onChange={(e) => handleFieldChange(e, field)} style={{ width: '100%', minHeight: '100px' }} /> : value} />
           </ListItem>
         ))}
         <ListItem button onClick={handleSubtasksClick}>
@@ -82,7 +82,9 @@ const StoryPage = () => {
           </List>
         </Collapse>
       </List>
-      <Button variant="contained" color="primary" onClick={handleCreateJira}>Create Jira</Button>
+
+      <Button style={{ alignItems: 'center', alignContent: 'center' }} variant="contained" color="primary" onClick={handleCreateJira}>Create Jira</Button>
+
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={notificationOpen}
