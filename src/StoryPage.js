@@ -1,27 +1,19 @@
 import React, { useState } from 'react';
+import {useLocation} from 'react-router-dom'
 import { Typography, TextField, List, ListItem, ListItemText, Collapse, Button, Snackbar, IconButton, TextareaAutosize } from '@material-ui/core';
 import { ExpandLess, ExpandMore, CheckCircleOutline } from '@material-ui/icons';
 
 const StoryPage = () => {
+
+  const location = useLocation(); // Get location from useLocation hook
+  console.log(location)
+  const { storyDetails } = location.state; // Get storyDetails from location state
   const [editableField, setEditableField] = useState(null);
   const [openSubtasks, setOpenSubtasks] = useState(false);
-  const [storyFields, setStoryFields] = useState({
-    "Story ID": "STORY-123",
-    "Summary": "Example Jira Story",
-    "Description": "keep the storyfields in state and update them on each edit. Also have the field capable of having larger content like with bullet points, here the fields are truncated. make the values of field more clear and give them larged text area based on the content",
-    "Assignee": "John Doe",
-    "Status": "To Do",
-    "Priority": "High",
-    "Labels": "Feature, Bug"
-    // Add more fields as needed
-  });
+  const [storyFields, setStoryFields] = useState(storyDetails.story);
   const [notificationOpen, setNotificationOpen] = useState(false);
 
-  const subtasks = [
-    { id: 1, title: "Subtask 1", description: "Description 1", acceptanceCriteria: "Criteria 1", assignee: "Jane Doe", status: "In Progress" },
-    { id: 2, title: "Subtask 2", description: "Description 2", acceptanceCriteria: "Criteria 2", assignee: "John Smith", status: "To Do" }
-    // Add more subtasks as needed
-  ];
+  const subtasks = storyDetails.subtasks;
 
   const handleFieldClick = (field) => {
     setEditableField(field);
